@@ -170,7 +170,7 @@ function Tesseract() {
     generateEdges()
     console.log(edges.length)
 
-    return <canvas ref={canvasRef} style={{width: '1000px', height: '1000px'}} />
+    return <canvas ref={canvasRef} style={{width: '100%', height: '100vh', display: 'block'}} />
 }
 
 export default Tesseract

@@ -3,10 +3,10 @@ import Tesseract from "./components/Tesseract.tsx";
 function App(){
     return(
         <div>
-            <h1>
-                Hi, this is a tesseract
+            <h1 style={{ textAlign: "center" }}>
+                Tesseract
             </h1>
-            <Tesseract/>
+            <Tesseract />
         </div>
     )
 }
