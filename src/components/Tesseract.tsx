@@ -9,6 +9,8 @@ function Tesseract() {
     const points: number[][] = [];
     const edges: number[][] = [];
     const canvasRef = useRef<HTMLCanvasElement>(null)
+
+
     useEffect(() => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -21,8 +23,13 @@ function Tesseract() {
             1000
         )
         camera.position.z = 5
+        camera.position.set(2, 2, 5)
+        camera.lookAt(0, 0, 0)
 
-        const renderer = new THREE.WebGLRenderer({ canvas })
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
+        renderer.setClearColor(0x000000, 0)
+        renderer.setPixelRatio(window.devicePixelRatio)
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight)
         const composer = new EffectComposer(renderer)
         composer.addPass(new RenderPass(scene, camera))
         composer.addPass(new UnrealBloomPass(
@@ -39,17 +46,26 @@ function Tesseract() {
             let pointA = points[edges[i][0]]
             let pointB = points[edges[i][1]]
 
-            pointA = projectTo3D(pointA[0],pointA[1],pointA[2],pointA[3])
-            pointB = projectTo3D(pointB[0],pointB[1],pointB[2],pointB[3])
+            let projA = projectTo3D(pointA[0],pointA[1],pointA[2],pointA[3])
+            let projB = projectTo3D(pointB[0],pointB[1],pointB[2],pointB[3])
 
 
             const geometry = new THREE.BufferGeometry().setFromPoints([
-                new THREE.Vector3(pointA[0], pointA[1], pointA[2]),
-                new THREE.Vector3(pointB[0], pointB[1], pointB[2]),
+                new THREE.Vector3(projA[0], projA[1], projA[2]),
+                new THREE.Vector3(projB[0], projB[1], projB[2]),
             ])
             const material = new THREE.LineBasicMaterial({color: 0x00ffff})
-            if(i==0)
-                material.color.set(0xff0000)
+
+            const wA = pointA[3]
+            const wB = pointB[3]
+
+            if (wA === 1 && wB === 1)
+                material.color.set(0x00ffff)// outer cube
+            else if (wA === -1 && wB === -1)
+                material.color.set(0xff00ff)// inner cube
+            else
+                material.color.set(0xff00ff)
+
             const line = new THREE.Line(geometry, material)
             scene.add(line)
             lines.push(line)
@@ -59,7 +75,7 @@ function Tesseract() {
 
         function animate() {
             requestAnimationFrame(animate)
-            angle += 0.02
+            angle += 0.005
 
             if(angle>=360) {
                 angle = 0
@@ -70,8 +86,8 @@ function Tesseract() {
                 const origA = points[edges[i][0]]
                 const origB = points[edges[i][1]]
 
-                const rotA = rotateXW(origA, angle)
-                const rotB = rotateXW(origB, angle)
+                const rotA = rotateYW(origA, angle)
+                const rotB = rotateYW(origB, angle)
 
 
                 const projA = projectTo3D(rotA[0], rotA[1], rotA[2], rotA[3])
@@ -82,8 +98,6 @@ function Tesseract() {
                     new THREE.Vector3(projB[0], projB[1], projB[2]),
                 ])
             }
-
-            scene.rotateY(scene.rotation.y+0.1)
 
             composer.render()
 
