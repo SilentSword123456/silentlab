@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # npm - handles all JS/TS dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Bucharest"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-*"
+          - "@types/react*"
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "vite-*"
+      typescript:
+        patterns:
+          - "typescript"
+          - "@typescript-eslint/*"
+      dev-dependencies:
+        dependency-type: "development"
+
+  # GitHub Actions (if you have CI workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "ci"
