@@ -6,7 +6,9 @@ function App(){
             <h1 style={{ textAlign: "center" }}>
                 Tesseract
             </h1>
-            <Tesseract />
+            <div className={"tesseract-container"}>
+                <Tesseract />
+            </div>
         </div>
     )
 }

@@ -19,3 +19,10 @@ body {
     color: var(--text);
     font-family: var(--font);
 }
+
+.tesseract-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+}

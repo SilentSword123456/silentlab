@@ -4,9 +4,8 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js' //TODO remove
 
-function Tesseract() {
+function Tesseract({size=400}: {size?: number}) {
     const points: number[][] = [];
     const edges: number[][] = [];
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -19,7 +18,7 @@ function Tesseract() {
         const scene = new THREE.Scene()
         const camera = new THREE.PerspectiveCamera(
             75,
-            canvas.clientWidth / canvas.clientHeight,
+            1,
             0.1,
             1000
         )
@@ -27,14 +26,10 @@ function Tesseract() {
         camera.position.set(2, 2, 5)
         camera.lookAt(0, 0, 0)
 
-        const controls = new OrbitControls(camera, canvas) //TODO remove
-        controls.enableDamping = true
-        controls.dampingFactor = 0.05
-
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
         renderer.setClearColor(0x000000, 0)
         renderer.setPixelRatio(window.devicePixelRatio)
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight)
+        renderer.setSize(size,size)
         const composer = new EffectComposer(renderer)
         composer.addPass(new RenderPass(scene, camera))
         composer.addPass(new UnrealBloomPass(
@@ -59,17 +54,7 @@ function Tesseract() {
                 new THREE.Vector3(projA[0], projA[1], projA[2]),
                 new THREE.Vector3(projB[0], projB[1], projB[2]),
             ])
-            const material = new THREE.LineBasicMaterial({color: 0x00ffff})
-
-            const wA = pointA[3]
-            const wB = pointB[3]
-
-            if (wA === 1 && wB === 1)
-                material.color.set(0x00ffff)// outer cube
-            else if (wA === -1 && wB === -1)
-                material.color.set(0xff00ff)// inner cube
-            else
-                material.color.set(0xff00ff)
+            const material = new THREE.LineBasicMaterial({color: 0xf8f8ff})
 
             const line = new THREE.Line(geometry, material)
             scene.add(line)
@@ -105,7 +90,6 @@ function Tesseract() {
             }
 
             composer.render()
-            controls.update() //TODO remove
 
         }
         animate()
@@ -114,7 +98,6 @@ function Tesseract() {
 
         return () => {
             renderer.dispose()
-            controls.dispose() //TODO remove
         }
     }, [])
 
@@ -176,7 +159,7 @@ function Tesseract() {
     generatePoints()
     generateEdges()
 
-    return <canvas ref={canvasRef} style={{width: '100%', height: '100vh', display: 'block'}} />
+    return <canvas ref={canvasRef}/>
 }
 
 export default Tesseract
