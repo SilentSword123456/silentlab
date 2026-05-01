@@ -4,6 +4,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js' //TODO remove
 
 function Tesseract() {
     const points: number[][] = [];
@@ -25,6 +26,10 @@ function Tesseract() {
         camera.position.z = 5
         camera.position.set(2, 2, 5)
         camera.lookAt(0, 0, 0)
+
+        const controls = new OrbitControls(camera, canvas) //TODO remove
+        controls.enableDamping = true
+        controls.dampingFactor = 0.05
 
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
         renderer.setClearColor(0x000000, 0)
@@ -100,6 +105,7 @@ function Tesseract() {
             }
 
             composer.render()
+            controls.update() //TODO remove
 
         }
         animate()
@@ -108,6 +114,7 @@ function Tesseract() {
 
         return () => {
             renderer.dispose()
+            controls.dispose() //TODO remove
         }
     }, [])
 
@@ -168,7 +175,6 @@ function Tesseract() {
 
     generatePoints()
     generateEdges()
-    console.log(edges.length)
 
     return <canvas ref={canvasRef} style={{width: '100%', height: '100vh', display: 'block'}} />
 }
