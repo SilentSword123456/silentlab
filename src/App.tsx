@@ -1,11 +1,12 @@
 import Tesseract from "./components/Tesseract.tsx";
+import Navbar from "./components/Navbar.tsx";
 
 function App(){
     return(
         <div>
-            <h1 style={{ textAlign: "center" }}>
-                Tesseract
-            </h1>
+            <div>
+                <Navbar/>
+            </div>
             <div className={"tesseract-container"}>
                 <Tesseract />
             </div>

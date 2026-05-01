@@ -5,12 +5,13 @@
 }
 
 :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --border: #ffffff15;
-    --accent: #00ff88;
-    --text: #e0e0e0;
-    --text-dim: #666680;
+    --bg: #000000;
+    --surface: #111111;
+    --border: #ffffff10;
+    --accent: #e8e8e8;
+    --accent-dim: #ffffff40;
+    --text: #d4d4d4;
+    --text-dim: #555555;
     --font: 'JetBrains Mono', monospace;
 }
 
@@ -25,4 +26,68 @@ body {
     justify-content: center;
     align-items: center;
     padding-top: 2rem;
+    background: var(--bg);
+}
+
+.tesseract-container canvas {
+    display: block;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    cursor: pointer;
+    position: relative;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+}
+
+.nav-button.active {
+    color: var(--text);
+}
+
+.nav-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 1px;
+    background: var(--accent);
+    box-shadow:
+            0 0 6px 1px var(--accent),
+            0 0 12px 2px var(--accent),
+            0 0 24px 4px var(--accent);
+}
+
+.nav-button::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 1px;
+    background: transparent;
+    box-shadow: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.nav-button:hover {
+    color: var(--text);
+    background: none;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }

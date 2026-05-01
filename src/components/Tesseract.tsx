@@ -26,8 +26,8 @@ function Tesseract({size=400}: {size?: number}) {
         camera.position.set(2, 2, 5)
         camera.lookAt(0, 0, 0)
 
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true })
-        renderer.setClearColor(0x000000, 0)
+        const renderer = new THREE.WebGLRenderer({ canvas })
+        renderer.setClearColor(0x000000, 1)
         renderer.setPixelRatio(window.devicePixelRatio)
         renderer.setSize(size,size)
         const composer = new EffectComposer(renderer)
