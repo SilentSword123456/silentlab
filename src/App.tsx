@@ -1,5 +1,6 @@
 import Tesseract from "./components/Tesseract.tsx";
 import Navbar from "./components/Navbar.tsx";
+import Description from "./components/Description.tsx";
 
 function App(){
     return(
@@ -9,6 +10,9 @@ function App(){
             </div>
             <div className={"tesseract-container"}>
                 <Tesseract />
+            </div>
+            <div>
+                <Description/>
             </div>
         </div>
     )
